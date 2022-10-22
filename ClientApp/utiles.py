@@ -1,3 +1,6 @@
+import time
+from threading import Thread
+
 import pybullet as p
 
 SpiderId = -1
@@ -7,15 +10,50 @@ jointStateList = []
 linkStateList = []
 
 
-def connect():
+class stepServerThread(Thread):
+    """
+    用于驱动远程服务器步进模拟
+    """
+    def __init__(self, daemon=True):
+        Thread.__init__(self)
+        self.daemon = daemon
+        self.stopFlag = False
+
+    def run(self):
+        while True:
+            if self.stopFlag:
+                break
+            p.stepSimulation()
+            time.sleep(0.02)
+
+    def stop(self):
+        self.stopFlag = True
+
+
+stepServerThreadInstance: stepServerThread = None
+
+
+def connect(TCP=True, host="127.0.0.1", port=6667):
     """
     链接物理引擎并且载入蜘蛛文件
     :return:
     """
-    p.connect(p.SHARED_MEMORY)
-    global SpiderId, jointNum
+
+    global SpiderId, jointNum, stepServerThreadInstance
+
+    if TCP:
+        p.connect(p.GRAPHICS_SERVER_TCP, hostName=host, port=port)
+    else:
+        p.connect(p.SHARED_MEMORY)
     SpiderId = p.loadURDF(r"../URDF/Spider.SLDASM/urdf/Spider.SLDASM.urdf", [0, 0, 0], useFixedBase=1)
     jointNum = p.getNumJoints(0)
+    getAllJointInfo()
+    getAllJointState()
+    getAllLinkState()
+    stepServerThreadInstance = stepServerThread
+    stepServerThreadInstance.start()
+
+
 
 
 def getAllJointInfo():
@@ -40,7 +78,7 @@ def getAllLinkState():
     linkStateList = p.getLinkStates(SpiderId, range(jointNum))
 
 
-def moveWithIK(endlinkId, pos, useSimulation=True, gain=0.8):
+def moveWithIK(endlinkId, pos, useSimulation=True, gain=0.1):
     """
     使用ik移动关节
     :param endlinkId: 要控制的关节末端
@@ -69,6 +107,6 @@ def close():
     """
     关闭与物理引擎的链接
     """
+    stepServerThreadInstance.stop()
     p.removeBody(SpiderId)
     p.disconnect()
-
