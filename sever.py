@@ -1,7 +1,7 @@
 import pybullet as p
 import time
 
-p.connect(p.GUI_SERVER)
+p.connect(p.DIRECT)
 
 while 1:
     p.stepSimulation()

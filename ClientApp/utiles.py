@@ -14,7 +14,7 @@ def connect():
     """
     p.connect(p.SHARED_MEMORY)
     global SpiderId, jointNum
-    SpiderId = p.loadURDF(r"../URDF/Spider.SLDASM/urdf/Spider.SLDASM.urdf", [0, 0, 0], useFixedBase=1)
+    SpiderId = p.loadURDF(r"/home/pi/SpiderRobot_with_pybullet/URDF/Spider.SLDASM/urdf/Spider.SLDASM.urdf", [0, 0, 0], useFixedBase=1)
     jointNum = p.getNumJoints(0)
 
 
