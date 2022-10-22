@@ -45,7 +45,7 @@ def connect(TCP=True, host="127.0.0.1", port=6667):
         p.connect(p.GRAPHICS_SERVER_TCP, hostName=host, port=port)
     else:
         p.connect(p.SHARED_MEMORY)
-    SpiderId = p.loadURDF(r"../URDF/Spider.SLDASM/urdf/Spider.SLDASM.urdf", [0, 0, 0], useFixedBase=1)
+    SpiderId = p.loadURDF(r"/home/pi/SpiderRobot_with_pybullet/URDF/Spider.SLDASM/urdf/Spider.SLDASM.urdf", [0, 0, 0], useFixedBase=1)
     jointNum = p.getNumJoints(0)
     getAllJointInfo()
     getAllJointState()
