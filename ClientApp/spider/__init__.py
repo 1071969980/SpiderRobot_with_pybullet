@@ -1,6 +1,3 @@
-from .. import utiles
-import pybullet as p
-
 import numpy as np
 
 FrontLeftEndId = 3
@@ -24,7 +21,14 @@ resetFrontRightEndPos = np.zeros(3)
 resetMidRightEndPos = np.zeros(3)
 resetBackRightEndPos = np.zeros(3)
 
-resetAction = 0
-moveAction = 1
+# 动作组，是对应LinkEnd与动作曲线的字典
+resetAction = {}
+moveAction = {}
 
 currentAction = resetAction
+
+def recordResetPos():
+    """
+    用当前姿态设置成静止姿态
+    :return:
+    """

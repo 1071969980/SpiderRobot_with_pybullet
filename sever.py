@@ -1,8 +1,21 @@
 import pybullet as p
 import time
+import sys
 
-p.connect(p.GUI_SERVER)
+local_server = False
+try:
+    local_server = sys.argv[1] == "-local"
+except:
+    pass
 
-while 1:
-    p.stepSimulation()
-    time.sleep(0.01)
+if local_server:
+    p.connect(p.GUI_SERVER)
+    while p.isConnected():
+        time.sleep(1. / 240.)
+
+else:
+    p.connect(p.GRAPHICS_SERVER)
+
+    print("started graphics server")
+    while p.isConnected():
+        time.sleep(1. / 240.)
