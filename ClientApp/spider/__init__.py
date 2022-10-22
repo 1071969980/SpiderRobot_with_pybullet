@@ -1,4 +1,4 @@
-from .. import utiles
+import utiles
 import pybullet as p
 
 import numpy as np

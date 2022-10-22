@@ -1,0 +1,5 @@
+pybullet
+pyserial
+pigpio
+RPi.GPIO
+smbus2
