@@ -1,5 +1,13 @@
+# 这个文件包含对目标点和IK计算的线程
+import Action
 
 
+# todo 包装成多线程函数，访问目标位置时上锁
+def calculateTargetPos():
+    """
+    使用动作描述类，按时间和计算目标点
+    :return:
+    """
 
 
 # todo 包装成多线程函数，访问目标位置时上锁
@@ -9,9 +17,9 @@ def step():
     :return:
     """
 
-# todo 包装成多线程函数，访问目标位置时上锁
-def calculateTargetPos():
+
+def recordResetPos():
     """
-    遍历动作组，按时间和计算目标点
+    用当前姿态设置成静止姿态
     :return:
     """

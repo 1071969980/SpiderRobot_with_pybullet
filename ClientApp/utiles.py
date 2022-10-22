@@ -12,7 +12,7 @@ linkStateList = []
 
 class stepServerThread(Thread):
     """
-    用于驱动远程服务器步进模拟
+    线程类，用于驱动远程服务器步进模拟
     """
     def __init__(self, daemon=True):
         Thread.__init__(self)
@@ -30,10 +30,20 @@ class stepServerThread(Thread):
         self.stopFlag = True
 
 
-stepServerThreadInstance: stepServerThread = None
+stepServerThreadInstance:stepServerThread = None
 
 
-def connect(TCP=True, host="127.0.0.1", port=6667):
+def stepRemoteSever():
+    """
+    新开线程，驱动远程服务器的步进模拟
+    :return:
+    """
+    global stepServerThreadInstance
+    stepServerThreadInstance = stepServerThread()
+    stepServerThreadInstance.start()
+
+
+def connect(TCP=False, host="127.0.0.1", port=6667):
     """
     链接物理引擎并且载入蜘蛛文件
     :return:
@@ -50,10 +60,6 @@ def connect(TCP=True, host="127.0.0.1", port=6667):
     getAllJointInfo()
     getAllJointState()
     getAllLinkState()
-    stepServerThreadInstance = stepServerThread
-    stepServerThreadInstance.start()
-
-
 
 
 def getAllJointInfo():

@@ -11,6 +11,7 @@ except:
 if local_server:
     p.connect(p.GUI_SERVER)
     while p.isConnected():
+        p.stepSimulation()
         time.sleep(1. / 240.)
 
 else:
